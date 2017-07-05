@@ -1,0 +1,45 @@
+//参考：http://www.jianshu.com/p/9cd72377b2ef
+//下面是发布相关配置
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def projectRepositoryName = properties.getProperty("project.repositoryName")
+def projectName = properties.getProperty("project.name")
+def projectDescription = properties.getProperty("project.description")
+def projectGroupId = properties.getProperty("project.groupId")
+def projectArtifactId = properties.getProperty("project.artifactId")
+def projectVersion = properties.getProperty("project.version")
+def projectSiteUrl = properties.getProperty("project.siteUrl")
+def projectGitUrl = properties.getProperty("project.gitUrl")
+
+def mDeveloperId = properties.getProperty("developer.id")
+def mDeveloperName = properties.getProperty("developer.name")
+def mDeveloperEmail = properties.getProperty("developer.email")
+
+
+ext {
+    bintrayRepo = projectRepositoryName
+    bintrayName = projectName
+    publishedGroupId = projectGroupId
+    libraryName = projectName
+    artifact = projectArtifactId
+    libraryDescription = projectDescription
+    siteUrl = projectSiteUrl
+    gitUrl = projectGitUrl
+    libraryVersion = projectVersion
+    developerId = mDeveloperId
+    developerName = mDeveloperName
+    developerEmail = mDeveloperEmail
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+}
+
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

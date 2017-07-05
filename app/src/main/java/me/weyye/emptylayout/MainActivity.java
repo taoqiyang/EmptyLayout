@@ -1,23 +1,23 @@
 package me.weyye.emptylayout;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+
+import com.taoqiyang.statelayout.StateLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import me.weyye.emptylayout.adapter.MyAdapter;
-import me.weyye.library.EmptyLayout;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
-    private EmptyLayout emptyLayout;
+    private StateLayout emptyLayout;
     private RecyclerView recyclerView;
     private List<String> list = new ArrayList<>();
     private MyAdapter adapter;
@@ -35,20 +35,19 @@ public class MainActivity extends Activity {
 
 
     private void initView() {
-        emptyLayout = (EmptyLayout) findViewById(R.id.emptyLayout);
+        emptyLayout = (StateLayout) findViewById(R.id.emptyLayout);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         srl = (SwipeRefreshLayout) findViewById(R.id.srl);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter = new MyAdapter(list));
         //绑定
-        emptyLayout.bindView(recyclerView);
-        emptyLayout.setOnButtonClick(new View.OnClickListener() {
+        emptyLayout.setOnRetryClickListener(new StateLayout.OnRetryClickListener() {
             @Override
-            public void onClick(View v) {
-                //重新加载数据
+            public void onRetryClick() {
                 loadData();
             }
         });
+
         srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

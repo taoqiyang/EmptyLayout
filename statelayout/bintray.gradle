@@ -1,0 +1,82 @@
+//参考：http://www.jianshu.com/p/0ba8960f80a9
+//不知道为什么，这种方式一直不成功  发布task命令执行成功不报错，但是没有发布到bintray,而是发布到了本地仓库了
+//下面是发布相关配置
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def projectRepositoryName = properties.getProperty("project.repositoryName")
+def projectName = properties.getProperty("project.name")
+def projectGroupId = properties.getProperty("project.groupId")
+def projectArtifactId = properties.getProperty("project.artifactId")
+def projectVersion = properties.getProperty("project.version")
+def projectPackaging = properties.getProperty("project.packaging")
+def projectSiteUrl = properties.getProperty("project.siteUrl")
+def projectGitUrl = properties.getProperty("project.gitUrl")
+
+def developerId = properties.getProperty("developer.id")
+def developerName = properties.getProperty("developer.name")
+def developerEmail = properties.getProperty("developer.email")
+
+def bintrayUser = properties.getProperty("bintray.user")
+def bintrayApikey = properties.getProperty("bintray.apiKey")
+
+group = projectGroupId
+version projectVersion
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging projectPackaging
+                name projectName
+                groupId projectGroupId
+                artifactId projectArtifactId
+                url projectSiteUrl
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id developerId
+                        name developerName
+                        email developerEmail
+                    }
+                }
+                scm {
+                    connection projectGitUrl
+                    developerConnection projectGitUrl
+                    url projectSiteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from('src/main/java') {
+        include '**'
+    }
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+bintray {
+    user = bintrayUser
+    key = bintrayApikey
+    configurations = ['archives']
+    pkg {
+        repo = projectRepositoryName
+        name = projectName
+        websiteUrl = projectSiteUrl
+        vcsUrl = projectGitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}

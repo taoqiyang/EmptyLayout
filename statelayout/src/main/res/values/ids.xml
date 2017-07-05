@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="sl_tv_empty" type="id" />
+    <item name="sl_tv_error" type="id" />
+    <item name="sl_tv_loading" type="id" />
+</resources>

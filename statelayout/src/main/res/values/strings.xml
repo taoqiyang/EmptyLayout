@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sl_loading_text">正在加载</string>
+    <string name="sl_empty_text">没有数据</string>
+    <string name="sl_error_text">获取数据失败，点击重试！</string>
+</resources>

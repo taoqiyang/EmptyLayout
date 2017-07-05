@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sl_error_tv_topMargin">12dp</dimen>
+    <dimen name="sl_loading_tv_topMargin">12dp</dimen>
+    <dimen name="sl_text_size">14sp</dimen>
+
+</resources>
